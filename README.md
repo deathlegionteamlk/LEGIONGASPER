@@ -1,153 +1,201 @@
-# ⚡ LEGIONGASPER
+<div align="center">
 
-**OpenClaw Factory Edition** - A Python-based Multi-Agent System with Parallel Execution
+<!-- Animated banner using SVG -->
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=40&duration=3000&pause=1000&color=FF2D20&center=true&vCenter=true&width=600&height=80&lines=LEGIONGASPER;DEATH+LEGION+SYSTEM;OpenClaw+Factory+Edition" alt="LEGIONGASPER" />
 
-> *Coded by DEATH LEGION Team (DEMO X HEXA)*
+<br/>
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)](https://fastapi.tiangolo.com)
-[![License](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE)
+<!-- Animated subheading -->
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=16&duration=2500&pause=800&color=888888&center=true&vCenter=true&width=600&lines=Python+Multi-Agent+System;Captain-Orchestrated+Parallelism;Built+by+DEATH+LEGION+%E2%80%94+DEMO+%C3%97+HEXA" alt="subtitle" />
 
-## 🎯 Overview
+<br/><br/>
 
-LEGIONGASPER is a next-generation autonomous agent framework that surpasses traditional multi-agent systems with **true parallelism**, **captain-agent orchestration**, and **factory-pattern agent management**. Built for scale, designed for intelligence.
+[![Python](https://img.shields.io/badge/Python-3.8+-blue?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![License](https://img.shields.io/badge/License-MIT-FF2D20?style=for-the-badge)](LICENSE)
+[![Agents](https://img.shields.io/badge/Agents-Parallel-purple?style=for-the-badge&logo=github-actions&logoColor=white)]()
+[![Memory](https://img.shields.io/badge/Memory-5--Layer-gold?style=for-the-badge)]()
 
-### Key Features
+<br/>
 
-- 🚀 **True Parallel Execution** - Asyncio-based concurrent agent execution with semaphore control
-- 🧠 **5-Layer Memory Architecture** - Session, Working, Daily, Long-term (Vector DB), and Collective Consciousness
-- 👑 **Captain-Agent Pattern** - Intelligent task decomposition with squad formation
-- 🏭 **Factory Pattern** - Dynamic agent spawning with pooling and lifecycle management
-- 🔀 **Multi-Provider LLM Router** - OpenAI, Anthropic, OpenRouter with tier-based selection
-- 🛡️ **Governance Layer** - Audit logging, cost tracking, rate limiting, RBAC
-- 📊 **Real-time Dashboard** - WebSocket-powered monitoring and analytics
-- 🔌 **REST API & WebSocket Gateway** - Multi-channel communication support
+<!-- Animated divider -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
 
-## 📐 Architecture
+</div>
+
+<br/>
+
+## What Is This
+
+LEGIONGASPER is a multi-agent orchestration system. You give it a task, it breaks that task apart, farms the pieces out to specialized agents running in parallel, and reassembles the results. The captain-agent pattern means one agent coordinates the others rather than you doing it manually.
+
+It's built on FastAPI, ships with a real-time dashboard, and supports OpenAI, Anthropic, and OpenRouter out of the box. Memory works in five layers — from in-session context all the way down to a ChromaDB vector store that persists across runs.
+
+<div align="center">
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=14&duration=2000&pause=500&color=FF2D20&center=true&vCenter=true&width=500&lines=Parallel+Agents+%E2%80%94+One+Brain;5+Memory+Layers+%E2%80%94+Zero+Amnesia;Captain+Orchestrates+%E2%80%94+Squad+Executes" alt="features typing" />
+</div>
+
+<br/>
+
+---
+
+## Features
+
+<div align="center">
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=18&duration=4000&pause=1000&color=FF2D20&center=true&vCenter=true&width=500&lines=%E2%9A%A1+Parallel+Execution;%F0%9F%A7%A0+5-Layer+Memory;%F0%9F%AB%A1+Captain+Pattern;%F0%9F%8F%AD+Factory+Spawning;%F0%9F%94%92+Governance+Layer;%F0%9F%93%A1+Live+Dashboard" alt="features" />
+</div>
+
+<br/>
+
+| Feature | What It Does |
+|---|---|
+| ⚡ **Parallel Execution** | Multiple agents run at the same time. Tasks that would block sequentially don't block here. |
+| 🧠 **5-Layer Memory** | Session → Working → Daily → Long-term → Collective. Agents remember what matters at the right scope. |
+| 🫡 **Captain-Agent Pattern** | One agent decomposes the task, forms a squad, and aggregates results. You don't wire the coordination yourself. |
+| 🏭 **Agent Factory** | Agents spawn from templates. Define the role, capabilities, and toolset once; reuse everywhere. |
+| 🔀 **Multi-Provider Router** | OpenAI, Anthropic, OpenRouter — swap providers per-agent or per-task without touching agent code. |
+| 🔒 **Governance Layer** | Audit logs, cost tracking, rate limiting, and RBAC. You know what your agents spent and did. |
+| 📡 **Live Dashboard** | Hit `localhost:8080` and watch agents work in real time. |
+| 🔌 **REST + WebSocket** | Full external API on port 8081. Integrate from anything. |
+
+<br/>
+
+---
+
+## System Architecture
+
+<div align="center">
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=16&duration=2000&pause=800&color=888888&center=true&vCenter=true&width=600&lines=Seven+layers.+One+system." alt="arch" />
+</div>
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    LEGIONGASPER SYSTEM                      │
 ├─────────────────────────────────────────────────────────────┤
-│  Gateway Layer (REST API + WebSocket)                      │
-│  └── Port 8081 - External Interface                         │
+│  Gateway Layer        REST API + WebSocket   :8081          │
 ├─────────────────────────────────────────────────────────────┤
-│  Dashboard Layer (FastAPI + WebSocket Real-time)           │
-│  └── Port 8080 - Monitoring & Analytics                   │
+│  Dashboard Layer      FastAPI + Live Updates  :8080          │
 ├─────────────────────────────────────────────────────────────┤
-│  Orchestration Layer                                        │
-│  ├── Captain (Task Decomposition)                          │
-│  ├── Squad (Parallel Execution)                            │
-│  └── Orchestrator (Queue + Dependency Resolution)          │
+│  Orchestration        Captain → Squad → Queue               │
 ├─────────────────────────────────────────────────────────────┤
-│  Agent Layer                                                │
-│  ├── Agent Factory (Dynamic Spawning + Pooling)            │
-│  ├── Base Agent (Async Execution + State Management)       │
-│  └── Tool Registry (Schema + Permission System)            │
+│  Agent Layer          Factory + Base Agent + Tool Registry  │
 ├─────────────────────────────────────────────────────────────┤
-│  Memory Layer (5-Tier Architecture)                         │
-│  ├── Session Memory (TTL Context Buffer)                   │
-│  ├── Working Memory (Priority Queue)                       │
-│  ├── Daily Memory (Date-indexed Persistence)               │
-│  ├── Long-term Memory (ChromaDB Vector Store)              │
-│  └── Collective Consciousness (Inter-agent Sharing)        │
+│  Memory (5-Tier)      Session / Working / Daily / LTM / CC  │
 ├─────────────────────────────────────────────────────────────┤
-│  LLM Layer                                                  │
-│  └── Multi-Provider Router (OpenAI/Anthropic/OpenRouter)   │
+│  LLM Router           OpenAI / Anthropic / OpenRouter       │
 ├─────────────────────────────────────────────────────────────┤
-│  Governance Layer                                           │
-│  ├── Audit Logging                                         │
-│  ├── Cost Tracking                                         │
-│  ├── Rate Limiting                                         │
-│  └── RBAC (Role-Based Access Control)                      │
+│  Governance           Audit / Cost / Rate Limit / RBAC      │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Memory Architecture
+<br/>
 
-The 5-layer memory system provides comprehensive context management:
+---
 
-1. **Session Memory** - Short-term context with TTL, conversation history tracking
-2. **Working Memory** - Priority queue for task-focused context with relevance scoring
-3. **Daily Memory** - Date-based indexing with persistence and daily summarization
-4. **Long-term Memory** - ChromaDB vector embeddings with semantic search
-5. **Collective Consciousness** - Inter-agent knowledge sharing with broadcast/subscribe
+## Memory System
 
-### Captain-Agent Pattern
+<div align="center">
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=15&duration=3000&pause=600&color=gold&center=true&vCenter=true&width=500&lines=Five+layers.+Nothing+forgotten." alt="memory" />
+</div>
 
-```python
-# Captain decomposes tasks and forms squads
-captain = Captain(agent_id="research_lead")
-subtasks = captain.decompose_task("Analyze market trends")
-squad = captain.form_squad(subtasks)
-results = await squad.execute_parallel()
-final = captain.aggregate_results(results)
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    5-LAYER MEMORY STACK                     │
+├─────────────────────────────────────────────────────────────┤
+│  [1] Session Memory        TTL context buffer               │
+│      → What's happening right now in this run              │
+├─────────────────────────────────────────────────────────────┤
+│  [2] Working Memory        Priority queue                   │
+│      → Current task focus, active state                    │
+├─────────────────────────────────────────────────────────────┤
+│  [3] Daily Memory          Date-indexed persistence         │
+│      → What happened today                                 │
+├─────────────────────────────────────────────────────────────┤
+│  [4] Long-term Memory      ChromaDB vector store            │
+│      → Semantic recall across sessions                     │
+├─────────────────────────────────────────────────────────────┤
+│  [5] Collective Consciousness   Shared agent knowledge      │
+│      → What the whole squad knows                          │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-## 🚀 Quickstart
+<br/>
 
-### Installation
+---
+
+## Quickstart
+
+<div align="center">
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=16&duration=2500&pause=700&color=FF2D20&center=true&vCenter=true&width=500&lines=Clone.+Configure.+Run." alt="quickstart" />
+</div>
+
+### 1. Clone and Install
 
 ```bash
-# Clone the repository
 git clone https://github.com/deathlegion/legiongasper.git
 cd legiongasper
-
-# Install dependencies
 pip install -r requirements.txt
-
-# Initialize configuration
 python -m legiongasper.cli init
 ```
 
-### Configuration
-
-Create a `.env` file:
+### 2. Configure `.env`
 
 ```bash
-# LLM Provider API Keys
+# Required — at least one LLM provider
 OPENAI_API_KEY=your_openai_key
 ANTHROPIC_API_KEY=your_anthropic_key
 OPENROUTER_API_KEY=your_openrouter_key
 
-# Optional: Redis for distributed memory
+# Optional — distributed memory
 REDIS_URL=redis://localhost:6379
 
-# Optional: ChromaDB for vector storage
+# Optional — vector storage
 CHROMADB_HOST=localhost
 CHROMADB_PORT=8000
 ```
 
-### Start the Server
+### 3. Start the Server
 
 ```bash
-# Start the gateway server (port 8081)
+# Default ports
 python -m legiongasper.cli serve
 
-# Or with custom ports
+# Custom ports
 python -m legiongasper.cli serve --port 8081 --dashboard-port 8080
 ```
 
-### Using the CLI
+<br/>
+
+---
+
+## CLI Reference
+
+<div align="center">
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=15&duration=2000&pause=600&color=888888&center=true&vCenter=true&width=500&lines=legiongasper+%3Ccommand%3E" alt="cli" />
+</div>
 
 ```bash
-# Initialize configuration
+# Initialize config
 legiongasper init
 
-# Spawn an agent
+# Spawn an agent from a template
 legiongasper agent spawn --template research --id researcher_1
 
-# List agents
+# See what's running
 legiongasper agent list
 
 # Submit a task
 legiongasper task submit "Research quantum computing advances" --priority high
 
-# Check system status
+# System health
 legiongasper status
 ```
 
-### Using the API
+<br/>
+
+---
+
+## API Usage
 
 ```python
 import requests
@@ -165,42 +213,35 @@ response = requests.post("http://localhost:8081/api/v1/tasks/submit", json={
 })
 ```
 
-## 📁 Project Structure
+<br/>
 
+---
+
+## Captain-Agent Pattern
+
+This is the core coordination primitive. A captain agent breaks a task into subtasks, forms a squad, runs them in parallel, and aggregates the results. You don't manage the individual agents — the captain does.
+
+```python
+captain = Captain(agent_id="research_lead")
+
+# Task → subtasks
+subtasks = captain.decompose_task("Analyze market trends")
+
+# Subtasks → squad
+squad = captain.form_squad(subtasks)
+
+# Squad → parallel execution
+results = await squad.execute_parallel()
+
+# Results → single output
+final = captain.aggregate_results(results)
 ```
-legiongasper/
-├── legiongasper/
-│   ├── core/              # Agent, Factory, Captain, Squad, Orchestrator
-│   ├── memory/            # 5-layer memory architecture
-│   ├── llm/               # Multi-provider LLM router
-│   ├── tools/             # Tool registry and built-in tools
-│   ├── governance/        # Audit, cost, rate limit, RBAC
-│   ├── gateway/           # REST API and WebSocket server
-│   ├── dashboard/         # Web dashboard
-│   └── cli/               # Command line interface
-├── configs/               # Configuration files
-├── examples/              # Example scripts
-├── requirements.txt       # Dependencies
-└── README.md             # This file
-```
 
-## 💡 Examples
+<br/>
 
-### Research Squad Example
+---
 
-See `examples/research_squad_example.py` for a complete demonstration of:
-- Captain forming a research squad
-- Parallel information gathering
-- Result aggregation and synthesis
-
-### Code Review Captain Example
-
-See `examples/code_review_captain_example.py` for:
-- Captain-led code review process
-- Multi-agent analysis (security, style, performance)
-- Consolidated review report generation
-
-## 🔧 Advanced Usage
+## Extending the System
 
 ### Custom Agent Templates
 
@@ -215,13 +256,12 @@ template = AgentTemplate(
 )
 ```
 
-### Tool Development
+### Custom Tools
 
 ```python
 from legiongasper.tools.registry import ToolRegistry, ToolSchema, ToolParameter
 
 async def my_custom_tool(query: str, limit: int = 10):
-    # Your tool logic here
     return {"results": []}
 
 schema = ToolSchema(
@@ -237,49 +277,94 @@ registry = ToolRegistry()
 registry.register(schema, my_custom_tool)
 ```
 
-### Memory Management
+### Memory Access
 
 ```python
 from legiongasper.memory import MemoryManager
 
 manager = MemoryManager()
 
-# Store in different layers
 await manager.session.store("key", "value")
 await manager.long_term.store("knowledge", {"data": "..."}, importance=0.8)
 
-# Recall with semantic search
+# Semantic recall
 results = await manager.long_term.recall("query", top_k=5)
 ```
 
-## 📊 Monitoring
-
-Access the dashboard at `http://localhost:8080` for:
-- Real-time agent status
-- Task queue visualization
-- Cost analytics
-- System health metrics
-
-## 🔐 Security
-
-- **RBAC**: Role-based access control with permissions
-- **Audit Logging**: All actions logged with timestamps
-- **Rate Limiting**: Token bucket and sliding window algorithms
-- **Sandboxed Execution**: Code execution in restricted environment
-
-## 🤝 Contributing
-
-Contributions welcome! Please read our [Contributing Guide](CONTRIBUTING.md).
-
-## 📜 License
-
-MIT License - See [LICENSE](LICENSE) for details.
-
-## 🙏 Acknowledgments
-
-- DEATH LEGION Team (DEMO X HEXA)
-- OpenClaw Factory Edition
+<br/>
 
 ---
 
-**Built with ❤️ by DEATH LEGION Team**
+## Project Structure
+
+```
+legiongasper/
+├── legiongasper/
+│   ├── core/          # Agent, Factory, Captain, Squad, Orchestrator
+│   ├── memory/        # 5-layer memory stack
+│   ├── llm/           # Multi-provider router
+│   ├── tools/         # Tool registry and built-ins
+│   ├── governance/    # Audit, cost, rate limiting, RBAC
+│   ├── gateway/       # REST + WebSocket
+│   ├── dashboard/     # Live web UI
+│   └── cli/           # Command line
+├── configs/
+├── examples/
+├── requirements.txt
+└── README.md
+```
+
+<br/>
+
+---
+
+## Examples
+
+**`examples/research_squad_example.py`** — Captain forms a research squad, agents run in parallel, results combine into a single report.
+
+**`examples/code_review_captain_example.py`** — Captain-led code review. Three agents audit security, style, and performance independently. Captain merges the findings.
+
+<br/>
+
+---
+
+## Dashboard
+
+Open `http://localhost:8080` after starting the server. You'll see:
+
+- Which agents are active and what they're doing
+- Task queue depth and completion rates
+- Cost per provider, per agent, per task
+- System health at a glance
+
+<br/>
+
+---
+
+## Security
+
+- **RBAC** — users and agents get roles; roles get permissions
+- **Audit Logging** — every agent action is recorded
+- **Rate Limiting** — prevents runaway execution
+- **Sandboxed Execution** — code runs isolated
+
+<br/>
+
+---
+
+<div align="center">
+
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%">
+
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=20&duration=3000&pause=1000&color=FF2D20&center=true&vCenter=true&width=500&lines=Built+by+DEATH+LEGION;DEMO+%C3%97+HEXA;OpenClaw+Factory+Edition" alt="footer" />
+
+<br/><br/>
+
+[![MIT License](https://img.shields.io/badge/License-MIT-FF2D20?style=for-the-badge)](LICENSE)
+[![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
+
+<br/>
+
+*Made with care, by DEATH LEGION Team*
+
+</div>
