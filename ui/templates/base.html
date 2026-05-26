@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LEGIONGASPER v2.0{% endblock %} - OpenClaw Killer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i data-lucide="terminal-square"></i>
+                    <span>LEGIONGASPER</span>
+                </div>
+                <div class="version">v2.0</div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/agents" class="nav-item {% if request.path == '/agents' %}active{% endif %}">
+                    <i data-lucide="bot"></i>
+                    <span>Agents</span>
+                    <span class="badge">25</span>
+                </a>
+                <a href="/workflows" class="nav-item {% if request.path == '/workflows' %}active{% endif %}">
+                    <i data-lucide="workflow"></i>
+                    <span>Workflows</span>
+                </a>
+                <a href="/canvas" class="nav-item {% if request.path == '/canvas' %}active{% endif %}">
+                    <i data-lucide="git-graph"></i>
+                    <span>Canvas</span>
+                </a>
+                <a href="/channels" class="nav-item {% if request.path == '/channels' %}active{% endif %}">
+                    <i data-lucide="message-square"></i>
+                    <span>Channels</span>
+                    <span class="badge">13</span>
+                </a>
+                <a href="/sandboxes" class="nav-item {% if request.path == '/sandboxes' %}active{% endif %}">
+                    <i data-lucide="container"></i>
+                    <span>Sandboxes</span>
+                </a>
+                <a href="/browser" class="nav-item {% if request.path == '/browser' %}active{% endif %}">
+                    <i data-lucide="globe"></i>
+                    <span>Browser</span>
+                </a>
+                <a href="/home" class="nav-item {% if request.path == '/home' %}active{% endif %}">
+                    <i data-lucide="home"></i>
+                    <span>Smart Home</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="status-dot online"></span>
+                    <span>System Online</span>
+                </div>
+                <div class="team-credit">DEATH LEGION Team</div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    
+    <script>
+        lucide.createIcons();
+        
+        // WebSocket connection
+        const socket = io();
+        socket.on('connect', function() {
+            console.log('Connected to LEGIONGASPER v2.0');
+        });
+    </script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

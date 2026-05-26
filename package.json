@@ -1,0 +1,26 @@
+{
+  "name": "legiongasper-framework",
+  "version": "2.0.0",
+  "description": "LEGIONGASPER v2.0 - Autonomous Multi-Agent Framework with OpenClaw, Capy.ai, e2b, Daytona, and Venice AI integrations",
+  "main": "ui/app.py",
+  "scripts": {
+    "start": "bash start.sh"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "automation",
+    "multi-agent",
+    "openclaw",
+    "capy",
+    "e2b",
+    "daytona",
+    "venice"
+  ],
+  "author": "DEATH LEGION Team (DEMO X HEXA)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/legiongasper/framework"
+  }
+}

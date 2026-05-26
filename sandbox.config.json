@@ -1,0 +1,10 @@
+{
+  "template": "python",
+  "infiniteLoopProtection": true,
+  "hardReloadOnChange": false,
+  "view": "browser",
+  "container": {
+    "port": 8080,
+    "startScript": "start.sh"
+  }
+}

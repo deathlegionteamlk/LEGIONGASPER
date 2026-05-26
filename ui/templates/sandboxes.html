@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}Sandbox Management{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Sandbox Management</h1>
+    <p class="subtitle">e2b.dev + Daytona.dev Integration</p>
+</div>
+
+<div class="sandboxes-container">
+    <!-- e2b.dev -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="container"></i>
+            <h3>e2b.dev Sandboxes</h3>
+            <button class="btn btn-primary" onclick="createE2BSandbox()">
+                <i data-lucide="plus"></i>
+                Create
+            </button>
+        </div>
+        <div class="sandbox-list" id="e2b-list">
+            <div class="empty-state">
+                <i data-lucide="box"></i>
+                <p>No active e2b sandboxes</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daytona -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="server"></i>
+            <h3>Daytona Workspaces</h3>
+            <button class="btn btn-primary" onclick="createDaytonaWorkspace()">
+                <i data-lucide="plus"></i>
+                Create
+            </button>
+        </div>
+        <div class="sandbox-list" id="daytona-list">
+            <div class="empty-state">
+                <i data-lucide="hard-drive"></i>
+                <p>No active Daytona workspaces</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Local -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="laptop"></i>
+            <h3>Local Sandboxes</h3>
+            <button class="btn btn-primary" onclick="createLocalSandbox()">
+                <i data-lucide="plus"></i>
+                Create
+            </button>
+        </div>
+        <div class="sandbox-list" id="local-list">
+            <div class="sandbox-item">
+                <div class="sandbox-info">
+                    <span class="sandbox-name">local-default</span>
+                    <span class="sandbox-type">Process</span>
+                </div>
+                <div class="sandbox-status active">Active</div>
+                <div class="sandbox-actions">
+                    <button class="btn-icon" title="Execute"><i data-lucide="play"></i></button>
+                    <button class="btn-icon" title="Files"><i data-lucide="folder"></i></button>
+                    <button class="btn-icon" title="Delete"><i data-lucide="trash-2"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .sandboxes-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: var(--space-lg);
+    }
+    
+    .sandbox-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        padding: var(--space-md);
+        background: var(--bg-tertiary);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-sm);
+    }
+    
+    .sandbox-info {
+        flex: 1;
+    }
+    
+    .sandbox-name {
+        display: block;
+        font-weight: 500;
+    }
+    
+    .sandbox-type {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+    
+    .sandbox-status {
+        font-size: 0.8rem;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-family: var(--font-mono);
+    }
+    
+    .sandbox-status.active {
+        background: rgba(16, 185, 129, 0.2);
+        color: var(--accent-success);
+    }
+    
+    .sandbox-status.creating {
+        background: rgba(245, 158, 11, 0.2);
+        color: var(--accent-warning);
+    }
+    
+    .sandbox-actions {
+        display: flex;
+        gap: var(--space-xs);
+    }
+    
+    .btn-icon {
+        padding: var(--space-sm);
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        cursor: pointer;
+        border-radius: var(--radius-sm);
+    }
+    
+    .btn-icon:hover {
+        background: var(--border-color);
+        color: var(--text-primary);
+    }
+</style>
+
+<script>
+    function createE2BSandbox() {
+        fetch('/api/v1/sandboxes', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({provider: 'e2b'})
+        })
+        .then(r => r.json())
+        .then(data => {
+            alert('e2b sandbox created: ' + data.sandbox.id);
+        });
+    }
+    
+    function createDaytonaWorkspace() {
+        fetch('/api/v1/sandboxes', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({provider: 'daytona'})
+        })
+        .then(r => r.json())
+        .then(data => {
+            alert('Daytona workspace created: ' + data.sandbox.id);
+        });
+    }
+    
+    function createLocalSandbox() {
+        alert('Creating local sandbox...');
+    }
+</script>
+{% endblock %}

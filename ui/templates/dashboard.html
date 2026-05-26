@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Dashboard</h1>
+    <p class="subtitle">OpenClaw Killer - System Overview</p>
+</div>
+
+<div class="dashboard-grid">
+    <!-- Status Cards -->
+    <div class="card status-card">
+        <div class="card-header">
+            <i data-lucide="activity"></i>
+            <h3>System Status</h3>
+        </div>
+        <div class="status-grid">
+            <div class="status-item">
+                <span class="status-label">Version</span>
+                <span class="status-value">2.0.0</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Status</span>
+                <span class="status-value online">Operational</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Uptime</span>
+                <span class="status-value" id="uptime">00:00:00</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Team</span>
+                <span class="status-value">DEATH LEGION</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agent Slots -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="bot"></i>
+            <h3>Agent Slots</h3>
+            <span class="badge">25 Total</span>
+        </div>
+        <div class="agent-slots">
+            <div class="slot-grid" id="agent-slots">
+                <!-- Slots populated by JS -->
+            </div>
+            <div class="slot-summary">
+                <span id="slots-used">0</span> / 25 slots used
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Workflows -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="workflow"></i>
+            <h3>Active Workflows</h3>
+        </div>
+        <div class="workflow-list" id="workflow-list">
+            <div class="empty-state">
+                <i data-lucide="git-branch"></i>
+                <p>No active workflows</p>
+                <a href="/workflows" class="btn btn-primary">Create Workflow</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Channel Status -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="message-square"></i>
+            <h3>Channel Status</h3>
+            <span class="badge">13 Connected</span>
+        </div>
+        <div class="channel-grid">
+            <div class="channel-item" data-channel="discord">
+                <i data-lucide="message-circle"></i>
+                <span>Discord</span>
+                <span class="channel-status online"></span>
+            </div>
+            <div class="channel-item" data-channel="slack">
+                <i data-lucide="hash"></i>
+                <span>Slack</span>
+                <span class="channel-status online"></span>
+            </div>
+            <div class="channel-item" data-channel="telegram">
+                <i data-lucide="send"></i>
+                <span>Telegram</span>
+                <span class="channel-status online"></span>
+            </div>
+            <div class="channel-item" data-channel="whatsapp">
+                <i data-lucide="phone"></i>
+                <span>WhatsApp</span>
+                <span class="channel-status online"></span>
+            </div>
+            <div class="channel-item" data-channel="email">
+                <i data-lucide="mail"></i>
+                <span>Email</span>
+                <span class="channel-status online"></span>
+            </div>
+            <div class="channel-item" data-channel="sms">
+                <i data-lucide="message-square"></i>
+                <span>SMS</span>
+                <span class="channel-status online"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sandboxes -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="container"></i>
+            <h3>Active Sandboxes</h3>
+        </div>
+        <div class="sandbox-list" id="sandbox-list">
+            <div class="sandbox-provider">
+                <span class="provider-name">e2b.dev</span>
+                <span class="provider-status">Ready</span>
+            </div>
+            <div class="sandbox-provider">
+                <span class="provider-name">Daytona</span>
+                <span class="provider-status">Ready</span>
+            </div>
+            <div class="sandbox-provider">
+                <span class="provider-name">Local</span>
+                <span class="provider-status">Active</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="zap"></i>
+            <h3>Quick Actions</h3>
+        </div>
+        <div class="quick-actions">
+            <button class="action-btn" onclick="createAgent()">
+                <i data-lucide="plus"></i>
+                <span>New Agent</span>
+            </button>
+            <button class="action-btn" onclick="createSandbox()">
+                <i data-lucide="box"></i>
+                <span>New Sandbox</span>
+            </button>
+            <button class="action-btn" onclick="runWorkflow()">
+                <i data-lucide="play"></i>
+                <span>Run Workflow</span>
+            </button>
+            <button class="action-btn" onclick="openBrowser()">
+                <i data-lucide="globe"></i>
+                <span>Browser</span>
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Initialize agent slots
+    function initAgentSlots() {
+        const slotsContainer = document.getElementById('agent-slots');
+        for (let i = 1; i <= 25; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'slot-item empty';
+            slot.dataset.slot = i;
+            slot.title = `Slot ${i}`;
+            slot.innerHTML = `<span>${i}</span>`;
+            slotsContainer.appendChild(slot);
+        }
+    }
+
+    // Update uptime
+    let startTime = Date.now();
+    function updateUptime() {
+        const elapsed = Date.now() - startTime;
+        const hours = Math.floor(elapsed / 3600000).toString().padStart(2, '0');
+        const minutes = Math.floor((elapsed % 3600000) / 60000).toString().padStart(2, '0');
+        const seconds = Math.floor((elapsed % 60000) / 1000).toString().padStart(2, '0');
+        document.getElementById('uptime').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // Quick action handlers
+    function createAgent() {
+        window.location.href = '/agents';
+    }
+    function createSandbox() {
+        window.location.href = '/sandboxes';
+    }
+    function runWorkflow() {
+        window.location.href = '/workflows';
+    }
+    function openBrowser() {
+        window.location.href = '/browser';
+    }
+
+    // Initialize
+    initAgentSlots();
+    setInterval(updateUptime, 1000);
+    updateUptime();
+
+    // Fetch status
+    fetch('/api/v1/status')
+        .then(r => r.json())
+        .then(data => {
+            console.log('System status:', data);
+        });
+</script>
+{% endblock %}

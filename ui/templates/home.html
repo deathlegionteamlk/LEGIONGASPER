@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Home{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Smart Home Control</h1>
+    <p class="subtitle">Home Assistant Integration</p>
+</div>
+
+<div class="home-container">
+    <!-- Device Categories -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="home"></i>
+            <h3>Devices</h3>
+            <button class="btn btn-primary" onclick="discoverDevices()">
+                <i data-lucide="refresh-cw"></i>
+                Discover
+            </button>
+        </div>
+        <div class="device-grid" id="device-grid">
+            <div class="device-card">
+                <div class="device-icon">
+                    <i data-lucide="lightbulb"></i>
+                </div>
+                <div class="device-info">
+                    <span class="device-name">Living Room Light</span>
+                    <span class="device-type">light</span>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" checked onchange="toggleDevice('light.living_room')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="device-card">
+                <div class="device-icon">
+                    <i data-lucide="thermometer"></i>
+                </div>
+                <div class="device-info">
+                    <span class="device-name">Thermostat</span>
+                    <span class="device-type">climate</span>
+                </div>
+                <div class="device-value">72°F</div>
+            </div>
+            
+            <div class="device-card">
+                <div class="device-icon">
+                    <i data-lucide="lock"></i>
+                </div>
+                <div class="device-info">
+                    <span class="device-name">Front Door</span>
+                    <span class="device-type">lock</span>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" onchange="toggleDevice('lock.front_door')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div class="device-card">
+                <div class="device-icon">
+                    <i data-lucide="video"></i>
+                </div>
+                <div class="device-info">
+                    <span class="device-name">Camera</span>
+                    <span class="device-type">camera</span>
+                </div>
+                <span class="device-status active">Recording</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Automations -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="zap"></i>
+            <h3>Automations</h3>
+            <button class="btn btn-primary" onclick="createAutomation()">
+                <i data-lucide="plus"></i>
+                New
+            </button>
+        </div>
+        <div class="automation-list" id="automation-list">
+            <div class="automation-item">
+                <div class="automation-info">
+                    <span class="automation-name">Morning Routine</span>
+                    <span class="automation-trigger">7:00 AM</span>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="automation-item">
+                <div class="automation-info">
+                    <span class="automation-name">Away Mode</span>
+                    <span class="automation-trigger">Geofence</span>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connection Status -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="wifi"></i>
+            <h3>Connection</h3>
+        </div>
+        <div class="connection-status">
+            <div class="status-row">
+                <span class="status-label">Home Assistant</span>
+                <span class="status-badge connected">Connected</span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">WebSocket</span>
+                <span class="status-badge connected">Connected</span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">Last Update</span>
+                <span class="status-value">2 seconds ago</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .home-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: var(--space-lg);
+    }
+    
+    .device-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--space-md);
+    }
+    
+    .device-card {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        padding: var(--space-md);
+        background: var(--bg-tertiary);
+        border-radius: var(--radius-md);
+        transition: all var(--transition-fast);
+    }
+    
+    .device-card:hover {
+        border-color: var(--accent-primary);
+    }
+    
+    .device-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg-card);
+        border-radius: var(--radius-md);
+        color: var(--accent-primary);
+    }
+    
+    .device-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .device-name {
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+    
+    .device-type {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+    }
+    
+    .device-value {
+        font-family: var(--font-mono);
+        font-size: 1.1rem;
+        color: var(--accent-primary);
+    }
+    
+    .device-status {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+    
+    .device-status.active {
+        background: rgba(16, 185, 129, 0.2);
+        color: var(--accent-success);
+    }
+    
+    .automation-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+    
+    .automation-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        padding: var(--space-md);
+        background: var(--bg-tertiary);
+        border-radius: var(--radius-md);
+    }
+    
+    .automation-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .automation-name {
+        font-weight: 500;
+    }
+    
+    .automation-trigger {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+    
+    .connection-status {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .status-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .status-label {
+        color: var(--text-secondary);
+    }
+    
+    .status-badge {
+        font-size: 0.8rem;
+        padding: 4px 12px;
+        border-radius: 12px;
+    }
+    
+    .status-badge.connected {
+        background: rgba(16, 185, 129, 0.2);
+        color: var(--accent-success);
+    }
+    
+    .status-value {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+</style>
+
+<script>
+    function discoverDevices() {
+        alert('Discovering Home Assistant devices...');
+    }
+    
+    function toggleDevice(entityId) {
+        console.log('Toggling:', entityId);
+    }
+    
+    function createAutomation() {
+        const name = prompt('Enter automation name:');
+        if (name) {
+            alert('Creating automation: ' + name);
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}Agent Manager{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Agent Manager</h1>
+    <p class="subtitle">25 Parallel Agent Slots with VM Isolation</p>
+</div>
+
+<div class="agents-container">
+    <!-- Agent Slots Grid -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="bot"></i>
+            <h3>Agent Slots</h3>
+            <button class="btn btn-primary" onclick="createNewAgent()">
+                <i data-lucide="plus"></i>
+                New Agent
+            </button>
+        </div>
+        <div class="slots-container">
+            <div class="slots-grid" id="slots-grid">
+                <!-- Slots populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Agent Details -->
+    <div class="card" id="agent-details" style="display: none;">
+        <div class="card-header">
+            <i data-lucide="info"></i>
+            <h3>Agent Details</h3>
+        </div>
+        <div class="agent-info">
+            <div class="info-row">
+                <span class="info-label">ID</span>
+                <span class="info-value" id="detail-id">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Name</span>
+                <span class="info-value" id="detail-name">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Status</span>
+                <span class="info-value" id="detail-status">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">VM</span>
+                <span class="info-value" id="detail-vm">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Git Branch</span>
+                <span class="info-value" id="detail-branch">-</span>
+            </div>
+            <div class="agent-actions">
+                <button class="btn btn-primary" onclick="startAgent()">
+                    <i data-lucide="play"></i>
+                    Start
+                </button>
+                <button class="btn btn-secondary" onclick="pauseAgent()">
+                    <i data-lucide="pause"></i>
+                    Pause
+                </button>
+                <button class="btn btn-danger" onclick="deleteAgent()">
+                    <i data-lucide="trash"></i>
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VM Isolation -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="shield"></i>
+            <h3>VM Isolation</h3>
+        </div>
+        <div class="isolation-status">
+            <div class="isolation-item">
+                <span class="isolation-name">Container Runtime</span>
+                <span class="isolation-status-badge active">Active</span>
+            </div>
+            <div class="isolation-item">
+                <span class="isolation-name">Process Isolation</span>
+                <span class="isolation-status-badge active">Active</span>
+            </div>
+            <div class="isolation-item">
+                <span class="isolation-name">Network Isolation</span>
+                <span class="isolation-status-badge active">Active</span>
+            </div>
+            <div class="isolation-item">
+                <span class="isolation-name">File System</span>
+                <span class="isolation-status-badge active">Active</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Git Branches -->
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="git-branch"></i>
+            <h3>Git Branches</h3>
+        </div>
+        <div class="branch-list" id="branch-list">
+            <div class="branch-item">
+                <span class="branch-name">main</span>
+                <span class="branch-type">default</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    let selectedSlot = null;
+    let agents = {};
+
+    function initSlots() {
+        const grid = document.getElementById('slots-grid');
+        for (let i = 1; i <= 25; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'slot-card empty';
+            slot.dataset.slot = i;
+            slot.innerHTML = `
+                <div class="slot-number">${i}</div>
+                <div class="slot-status">Empty</div>
+            `;
+            slot.onclick = () => selectSlot(i);
+            grid.appendChild(slot);
+        }
+    }
+
+    function selectSlot(slotNum) {
+        selectedSlot = slotNum;
+        document.querySelectorAll('.slot-card').forEach(s => s.classList.remove('selected'));
+        document.querySelector(`.slot-card[data-slot="${slotNum}"]`).classList.add('selected');
+        
+        const agent = agents[`agent_${slotNum}`];
+        if (agent) {
+            showAgentDetails(agent);
+        } else {
+            hideAgentDetails();
+        }
+    }
+
+    function showAgentDetails(agent) {
+        document.getElementById('agent-details').style.display = 'block';
+        document.getElementById('detail-id').textContent = agent.id;
+        document.getElementById('detail-name').textContent = agent.name;
+        document.getElementById('detail-status').textContent = agent.status;
+        document.getElementById('detail-vm').textContent = `vm-${agent.id}`;
+        document.getElementById('detail-branch').textContent = `branch/${agent.id}`;
+    }
+
+    function hideAgentDetails() {
+        document.getElementById('agent-details').style.display = 'none';
+    }
+
+    function createNewAgent() {
+        if (!selectedSlot) {
+            alert('Please select a slot first');
+            return;
+        }
+        
+        const name = prompt('Enter agent name:');
+        if (name) {
+            fetch('/api/v1/agents', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name, slot: selectedSlot})
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    agents[data.agent.id] = data.agent;
+                    updateSlot(selectedSlot, data.agent);
+                }
+            });
+        }
+    }
+
+    function updateSlot(slotNum, agent) {
+        const slot = document.querySelector(`.slot-card[data-slot="${slotNum}"]`);
+        slot.classList.remove('empty');
+        slot.classList.add('occupied');
+        slot.innerHTML = `
+            <div class="slot-number">${slotNum}</div>
+            <div class="slot-name">${agent.name}</div>
+            <div class="slot-status ${agent.status}">${agent.status}</div>
+        `;
+    }
+
+    function startAgent() {
+        console.log('Starting agent...');
+    }
+
+    function pauseAgent() {
+        console.log('Pausing agent...');
+    }
+
+    function deleteAgent() {
+        if (confirm('Delete this agent?')) {
+            console.log('Deleting agent...');
+        }
+    }
+
+    // Load existing agents
+    fetch('/api/v1/agents')
+        .then(r => r.json())
+        .then(data => {
+            data.agents.forEach(agent => {
+                agents[agent.id] = agent;
+                const slotNum = parseInt(agent.id.split('_')[1]);
+                updateSlot(slotNum, agent);
+            });
+        });
+
+    initSlots();
+</script>
+{% endblock %}

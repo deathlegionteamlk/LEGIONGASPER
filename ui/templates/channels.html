@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+
+{% block title %}Channel Configuration{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Channel Configuration</h1>
+    <p class="subtitle">13+ Messaging Platforms Integration</p>
+</div>
+
+<div class="channels-grid">
+    <!-- Discord -->
+    <div class="card channel-card">
+        <div class="card-header">
+            <i data-lucide="message-circle"></i>
+            <h3>Discord</h3>
+            <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="channel-config">
+            <div class="form-group">
+                <label>Bot Token</label>
+                <input type="password" placeholder="Enter bot token" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Guild ID</label>
+                <input type="text" placeholder="Enter guild ID" class="form-control">
+            </div>
+            <button class="btn btn-primary">Test Connection</button>
+        </div>
+    </div>
+
+    <!-- Slack -->
+    <div class="card channel-card">
+        <div class="card-header">
+            <i data-lucide="hash"></i>
+            <h3>Slack</h3>
+            <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="channel-config">
+            <div class="form-group">
+                <label>Bot Token</label>
+                <input type="password" placeholder="xoxb-..." class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Signing Secret</label>
+                <input type="password" placeholder="Enter signing secret" class="form-control">
+            </div>
+            <button class="btn btn-primary">Test Connection</button>
+        </div>
+    </div>
+
+    <!-- Telegram -->
+    <div class="card channel-card">
+        <div class="card-header">
+            <i data-lucide="send"></i>
+            <h3>Telegram</h3>
+            <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="channel-config">
+            <div class="form-group">
+                <label>Bot Token</label>
+                <input type="password" placeholder="123456:ABC-DEF..." class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Webhook URL</label>
+                <input type="text" placeholder="https://..." class="form-control">
+            </div>
+            <button class="btn btn-primary">Test Connection</button>
+        </div>
+    </div>
+
+    <!-- WhatsApp -->
+    <div class="card channel-card">
+        <div class="card-header">
+            <i data-lucide="phone"></i>
+            <h3>WhatsApp</h3>
+            <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="channel-config">
+            <div class="form-group">
+                <label>API Key</label>
+                <input type="password" placeholder="Enter API key" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Phone Number ID</label>
+                <input type="text" placeholder="Enter phone number ID" class="form-control">
+            </div>
+            <button class="btn btn-primary">Test Connection</button>
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="card channel-card">
+        <div class="card-header">
+            <i data-lucide="mail"></i>
+            <h3>Email</h3>
+            <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="channel-config">
+            <div class="form-group">
+                <label>SMTP Host</label>
+                <input type="text" placeholder="smtp.gmail.com" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>SMTP Port</label>
+                <input type="text" placeholder="587" class="form-control">
+            </div>
+            <button class="btn btn-primary">Test Connection</button>
+        </div>
+    </div>
+
+    <!-- SMS -->
+    <div class="card channel-card">
+        <div class="card-header">
+            <i data-lucide="message-square"></i>
+            <h3>SMS</h3>
+            <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="channel-config">
+            <div class="form-group">
+                <label>Provider</label>
+                <select class="form-control">
+                    <option>Twilio</option>
+                    <option>Nexmo</option>
+                    <option>MessageBird</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>API Key</label>
+                <input type="password" placeholder="Enter API key" class="form-control">
+            </div>
+            <button class="btn btn-primary">Test Connection</button>
+        </div>
+    </div>
+
+    <!-- Matrix -->
+    <div class="card channel-card">
+        <div class="card-header">
+            <i data-lucide="grid"></i>
+            <h3>Matrix</h3>
+            <label class="toggle">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="channel-config">
+            <div class="form-group">
+                <label>Homeserver URL</label>
+                <input type="text" placeholder="https://matrix.org" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Access Token</label>
+                <input type="password" placeholder="Enter access token" class="form-control">
+            </div>
+            <button class="btn btn-primary">Test Connection</button>
+        </div>
+    </div>
+
+    <!-- Signal -->
+    <div class="card channel-card">
+        <div class="card-header">
+            <i data-lucide="shield"></i>
+            <h3>Signal</h3>
+            <label class="toggle">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="channel-config">
+            <div class="form-group">
+                <label>Signal CLI Path</label>
+                <input type="text" placeholder="/usr/local/bin/signal-cli" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" placeholder="+1234567890" class="form-control">
+            </div>
+            <button class="btn btn-primary">Test Connection</button>
+        </div>
+    </div>
+
+    <!-- Webhook -->
+    <div class="card channel-card">
+        <div class="card-header">
+            <i data-lucide="webhook"></i>
+            <h3>Webhook</h3>
+            <label class="toggle">
+                <input type="checkbox" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="channel-config">
+            <div class="form-group">
+                <label>Endpoint URL</label>
+                <input type="text" placeholder="https://api.example.com/webhook" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Secret</label>
+                <input type="password" placeholder="Webhook secret" class="form-control">
+            </div>
+            <button class="btn btn-primary">Test Connection</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .channels-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: var(--space-lg);
+    }
+    
+    .channel-card {
+        transition: all var(--transition-normal);
+    }
+    
+    .channel-card:hover {
+        border-color: var(--accent-primary);
+    }
+    
+    .toggle {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+        margin-left: auto;
+    }
+    
+    .toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--bg-tertiary);
+        transition: .4s;
+        border-radius: 24px;
+        border: 1px solid var(--border-color);
+    }
+    
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 2px;
+        bottom: 2px;
+        background-color: var(--text-muted);
+        transition: .4s;
+        border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+        background-color: rgba(99, 102, 241, 0.3);
+        border-color: var(--accent-primary);
+    }
+    
+    input:checked + .slider:before {
+        transform: translateX(20px);
+        background-color: var(--accent-primary);
+    }
+    
+    .form-group {
+        margin-bottom: var(--space-md);
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: var(--space-xs);
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: var(--space-sm) var(--space-md);
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        color: var(--text-primary);
+        font-size: 0.9rem;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+    }
+    
+    .btn-secondary {
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+    }
+    
+    .btn-danger {
+        background: rgba(239, 68, 68, 0.2);
+        border: 1px solid var(--accent-error);
+        color: var(--accent-error);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+
+{% block title %}Workflow Editor{% endblock %}
+
+{% block extra_head %}
+<style>
+    .workflow-canvas {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        min-height: 500px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .workflow-node {
+        position: absolute;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: var(--space-md);
+        min-width: 150px;
+        cursor: move;
+        transition: all var(--transition-fast);
+    }
+    
+    .workflow-node:hover {
+        border-color: var(--accent-primary);
+        box-shadow: var(--shadow-glow);
+    }
+    
+    .workflow-node.selected {
+        border-color: var(--accent-primary);
+        background: rgba(99, 102, 241, 0.1);
+    }
+    
+    .node-header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-sm);
+        font-weight: 500;
+    }
+    
+    .node-header i {
+        color: var(--accent-primary);
+    }
+    
+    .node-ports {
+        display: flex;
+        justify-content: space-between;
+        margin-top: var(--space-sm);
+    }
+    
+    .port {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--border-color);
+        cursor: pointer;
+    }
+    
+    .port:hover {
+        background: var(--accent-primary);
+    }
+    
+    .port.input {
+        margin-right: auto;
+    }
+    
+    .port.output {
+        margin-left: auto;
+    }
+    
+    .workflow-toolbar {
+        display: flex;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+        padding: var(--space-md);
+        background: var(--bg-card);
+        border-radius: var(--radius-md);
+    }
+    
+    .toolbar-btn {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        padding: var(--space-sm) var(--space-md);
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        color: var(--text-primary);
+        cursor: pointer;
+        font-size: 0.85rem;
+    }
+    
+    .toolbar-btn:hover {
+        background: var(--border-color);
+    }
+    
+    .node-palette {
+        display: flex;
+        gap: var(--space-sm);
+        flex-wrap: wrap;
+    }
+    
+    .palette-item {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        padding: var(--space-sm) var(--space-md);
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        cursor: grab;
+        font-size: 0.85rem;
+    }
+    
+    .palette-item:hover {
+        border-color: var(--accent-primary);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Workflow Editor</h1>
+    <p class="subtitle">Lobster-like Visual Workflow Orchestration</p>
+</div>
+
+<div class="workflow-container">
+    <!-- Toolbar -->
+    <div class="workflow-toolbar">
+        <button class="toolbar-btn" onclick="addNode('start')">
+            <i data-lucide="play-circle"></i>
+            Start
+        </button>
+        <button class="toolbar-btn" onclick="addNode('agent')">
+            <i data-lucide="bot"></i>
+            Agent
+        </button>
+        <button class="toolbar-btn" onclick="addNode('condition')">
+            <i data-lucide="git-branch"></i>
+            Condition
+        </button>
+        <button class="toolbar-btn" onclick="addNode('action')">
+            <i data-lucide="zap"></i>
+            Action
+        </button>
+        <button class="toolbar-btn" onclick="addNode('end')">
+            <i data-lucide="check-circle"></i>
+            End
+        </button>
+        <div style="flex: 1;"></div>
+        <button class="toolbar-btn btn-primary" onclick="runWorkflow()">
+            <i data-lucide="play"></i>
+            Run
+        </button>
+        <button class="toolbar-btn" onclick="saveWorkflow()">
+            <i data-lucide="save"></i>
+            Save
+        </button>
+    </div>
+
+    <!-- Canvas -->
+    <div class="workflow-canvas" id="workflow-canvas">
+        <!-- Nodes will be added here -->
+    </div>
+
+    <!-- Properties Panel -->
+    <div class="card" style="margin-top: var(--space-lg);">
+        <div class="card-header">
+            <i data-lucide="settings"></i>
+            <h3>Node Properties</h3>
+        </div>
+        <div class="properties-content" id="properties">
+            <p class="text-muted">Select a node to edit properties</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    let nodes = [];
+    let selectedNode = null;
+    let nodeIdCounter = 0;
+
+    function addNode(type) {
+        const canvas = document.getElementById('workflow-canvas');
+        const nodeId = `node_${++nodeIdCounter}`;
+        
+        const node = document.createElement('div');
+        node.className = 'workflow-node';
+        node.id = nodeId;
+        node.style.left = `${50 + Math.random() * 300}px`;
+        node.style.top = `${50 + Math.random() * 200}px`;
+        
+        const icons = {
+            start: 'play-circle',
+            agent: 'bot',
+            condition: 'git-branch',
+            action: 'zap',
+            end: 'check-circle'
+        };
+        
+        node.innerHTML = `
+            <div class="node-header">
+                <i data-lucide="${icons[type]}"></i>
+                <span>${type.charAt(0).toUpperCase() + type.slice(1)}</span>
+            </div>
+            <div class="node-content">
+                <small class="text-muted">${type} node</small>
+            </div>
+            <div class="node-ports">
+                <div class="port input"></div>
+                <div class="port output"></div>
+            </div>
+        `;
+        
+        node.onclick = () => selectNode(nodeId);
+        makeDraggable(node);
+        
+        canvas.appendChild(node);
+        lucide.createIcons();
+        
+        nodes.push({id: nodeId, type, x: 50, y: 50});
+    }
+
+    function selectNode(nodeId) {
+        document.querySelectorAll('.workflow-node').forEach(n => n.classList.remove('selected'));
+        document.getElementById(nodeId).classList.add('selected');
+        selectedNode = nodeId;
+        
+        document.getElementById('properties').innerHTML = `
+            <div class="form-group">
+                <label>Node ID</label>
+                <input type="text" value="${nodeId}" disabled class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" placeholder="Enter node name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Configuration</label>
+                <textarea placeholder="JSON configuration" class="form-control" rows="4"></textarea>
+            </div>
+        `;
+    }
+
+    function makeDraggable(element) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        element.onmousedown = dragMouseDown;
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            element.style.top = (element.offsetTop - pos2) + "px";
+            element.style.left = (element.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+
+    function runWorkflow() {
+        alert('Running workflow...');
+    }
+
+    function saveWorkflow() {
+        const workflowData = {
+            nodes: nodes,
+            timestamp: new Date().toISOString()
+        };
+        
+        fetch('/api/v1/workflows', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(workflowData)
+        })
+        .then(r => r.json())
+        .then(data => {
+            alert('Workflow saved!');
+        });
+    }
+</script>
+{% endblock %}

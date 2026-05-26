@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Browser Automation{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Browser Automation</h1>
+    <p class="subtitle">CDP-based Browser Control</p>
+</div>
+
+<div class="browser-container">
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="globe"></i>
+            <h3>Browser Control</h3>
+        </div>
+        <div class="browser-controls">
+            <div class="url-bar">
+                <input type="text" id="browser-url" placeholder="Enter URL..." value="https://example.com">
+                <button class="btn btn-primary" onclick="navigate()">
+                    <i data-lucide="navigation"></i>
+                    Go
+                </button>
+            </div>
+            <div class="browser-actions">
+                <button class="btn btn-secondary" onclick="takeScreenshot()">
+                    <i data-lucide="camera"></i>
+                    Screenshot
+                </button>
+                <button class="btn btn-secondary" onclick="executeScript()">
+                    <i data-lucide="code"></i>
+                    Execute JS
+                </button>
+                <button class="btn btn-secondary" onclick="getDOM()">
+                    <i data-lucide="file-code"></i>
+                    Get DOM
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <i data-lucide="terminal"></i>
+            <h3>CDP Commands</h3>
+        </div>
+        <div class="cdp-console">
+            <div class="console-output" id="console-output">
+                <div class="console-line">
+                    <span class="timestamp">[09:00:00]</span>
+                    <span class="level info">INFO</span>
+                    <span class="message">Browser automation ready</span>
+                </div>
+            </div>
+            <div class="console-input">
+                <input type="text" id="cdp-command" placeholder="Enter CDP command...">
+                <button class="btn btn-primary" onclick="sendCDP()">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .browser-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+    
+    .url-bar {
+        display: flex;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-md);
+    }
+    
+    .url-bar input {
+        flex: 1;
+        padding: var(--space-md);
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        color: var(--text-primary);
+        font-size: 0.95rem;
+    }
+    
+    .browser-actions {
+        display: flex;
+        gap: var(--space-sm);
+    }
+    
+    .cdp-console {
+        background: var(--bg-tertiary);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+    }
+    
+    .console-output {
+        height: 300px;
+        overflow-y: auto;
+        padding: var(--space-md);
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+    }
+    
+    .console-line {
+        display: flex;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-xs);
+        color: var(--text-secondary);
+    }
+    
+    .console-line .timestamp {
+        color: var(--text-muted);
+    }
+    
+    .console-line .level {
+        padding: 0 6px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+    }
+    
+    .console-line .level.info {
+        background: rgba(99, 102, 241, 0.2);
+        color: var(--accent-primary);
+    }
+    
+    .console-input {
+        display: flex;
+        gap: var(--space-sm);
+        padding: var(--space-md);
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .console-input input {
+        flex: 1;
+        padding: var(--space-sm) var(--space-md);
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        color: var(--text-primary);
+        font-family: var(--font-mono);
+    }
+</style>
+
+<script>
+    function navigate() {
+        const url = document.getElementById('browser-url').value;
+        log('INFO', `Navigating to ${url}...`);
+    }
+    
+    function takeScreenshot() {
+        log('INFO', 'Taking screenshot...');
+    }
+    
+    function executeScript() {
+        const script = prompt('Enter JavaScript to execute:');
+        if (script) {
+            log('INFO', `Executing: ${script}`);
+        }
+    }
+    
+    function getDOM() {
+        log('INFO', 'Getting DOM...');
+    }
+    
+    function sendCDP() {
+        const command = document.getElementById('cdp-command').value;
+        if (command) {
+            log('CMD', command);
+            document.getElementById('cdp-command').value = '';
+        }
+    }
+    
+    function log(level, message) {
+        const output = document.getElementById('console-output');
+        const timestamp = new Date().toLocaleTimeString();
+        const line = document.createElement('div');
+        line.className = 'console-line';
+        line.innerHTML = `
+            <span class="timestamp">[${timestamp}]</span>
+            <span class="level ${level.toLowerCase()}">${level}</span>
+            <span class="message">${message}</span>
+        `;
+        output.appendChild(line);
+        output.scrollTop = output.scrollHeight;
+    }
+</script>
+{% endblock %}
