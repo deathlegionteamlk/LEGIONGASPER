@@ -1,0 +1,139 @@
+# LEGIONGASPER v2.0 Configuration
+# Coded by DEATH LEGION Team (DEMO X HEXA)
+
+app:
+  name: "LEGIONGASPER"
+  version: "2.0.0"
+  codename: "OpenClaw Killer"
+  debug: false
+  host: "0.0.0.0"
+  port: 8080
+
+features:
+  agents:
+    enabled: true
+    max_slots: 25
+    vm_isolation: true
+    git_branch_per_agent: true
+  
+  sandboxes:
+    enabled: true
+    providers:
+      - e2b
+      - daytona
+      - local
+    default_provider: local
+  
+  channels:
+    enabled: true
+    platforms:
+      - discord
+      - slack
+      - telegram
+      - whatsapp
+      - email
+      - sms
+      - matrix
+      - signal
+      - messenger
+      - teams
+      - webhook
+      - websocket
+      - pgone
+  
+  browser:
+    enabled: true
+    headless: true
+    default_timeout: 30
+  
+  smart_home:
+    enabled: true
+    provider: homeassistant
+  
+  canvas:
+    enabled: true
+    default_width: 1200
+    default_height: 800
+
+providers:
+  openai:
+    enabled: true
+    api_key: "${OPENAI_API_KEY}"
+    models:
+      - gpt-4
+      - gpt-4-turbo
+      - gpt-3.5-turbo
+  
+  anthropic:
+    enabled: true
+    api_key: "${ANTHROPIC_API_KEY}"
+    models:
+      - claude-3-opus
+      - claude-3-sonnet
+      - claude-3-haiku
+  
+  venice:
+    enabled: true
+    api_key: "${VENICE_API_KEY}"
+    private_mode: true
+    models:
+      - llama-3.3-70b
+      - llama-3.1-405b
+  
+  google:
+    enabled: true
+    api_key: "${GOOGLE_API_KEY}"
+    models:
+      - gemini-pro
+      - gemini-ultra
+
+integrations:
+  e2b:
+    enabled: true
+    api_key: "${E2B_API_KEY}"
+    default_template: base
+  
+  daytona:
+    enabled: true
+    api_key: "${DAYTONA_API_KEY}"
+    server_url: "https://api.daytona.io"
+  
+  homeassistant:
+    enabled: true
+    url: "${HA_URL}"
+    token: "${HA_TOKEN}"
+
+security:
+  sandbox:
+    allowed_commands:
+      - python
+      - pip
+      - git
+      - curl
+      - wget
+    blocked_commands:
+      - rm -rf /
+      - mkfs
+      - dd if=/dev/zero
+    timeout: 300
+  
+  rbac:
+    enabled: true
+    default_role: user
+    roles:
+      - admin
+      - user
+      - guest
+
+observability:
+  logging:
+    level: INFO
+    format: json
+    output: stdout
+  
+  metrics:
+    enabled: true
+    endpoint: /metrics
+  
+  tracing:
+    enabled: false
